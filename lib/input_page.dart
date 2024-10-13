@@ -1,8 +1,9 @@
+import 'package:bmi_calculator/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'resuable_card.dart';
 import 'constants.dart';
-
+import 'calculator_brain.dart';
 enum Gender {
   male,
   female,
@@ -150,7 +151,6 @@ class _InputPageState extends State<InputPage> {
                           setState(() {
                             height = newValue.toInt();
                           });
-                          ;
                         },
                       ),
                     )
@@ -248,11 +248,36 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Container(
-              color: kbottomContainerCOlor,
-              margin: const EdgeInsets.only(top: 10),
-              width: double.infinity,
-              height: kbottomContainerHeight,
+            GestureDetector(
+              onTap: () {
+                CalculatorBrain calc = CalculatorBrain(height: height,weight: weight);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ResultsPage(
+                    resultText: calc.getResult(),
+                    bmiResult: calc.calculateBMI(),
+                    interpretation: calc.getInterpretation(),
+                  )),
+                );
+              },
+              child: Container(
+                color: kbottomContainerCOlor,
+                padding: const EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(top: 10),
+                width: double.infinity,
+                height: kbottomContainerHeight,
+                child: const Center(
+                  child: Text(
+                    "CALCULATE",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ),
           ],
         ));
